@@ -29,6 +29,7 @@ async def edit_message_url(event):
     for old_url, new_url in replacements.items():
         if old_url in event.raw_text:
             updated_text = event.raw_text.replace(old_url, new_url)
+            updated_text = updated_text.split('?')[0]
             await client.edit_message(
                 entity=await event.get_chat(),
                 message=event.message,
