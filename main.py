@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+
 from dotenv import dotenv_values
 
 from telethon import TelegramClient, events
@@ -26,14 +28,18 @@ async def edit_message_url(event):
         'furaffinity.net': 'vxfuraffinity.net',
     }
 
+    parsed_url = urlparse(event.raw_text)
+
     for old_url, new_url in replacements.items():
-        if old_url in event.raw_text:
-            updated_text = event.raw_text.replace(old_url, new_url)
-            updated_text = updated_text.split('?')[0]
+        if old_url == parsed_url.netloc:
+            parsed_url = parsed_url._replace(netloc=new_url)
+            parsed_url = parsed_url._replace(query='')
+
             await client.edit_message(
                 entity=await event.get_chat(),
                 message=event.message,
-                text=updated_text
+                text=parsed_url.geturl(),
+                link_preview=True
             )
             break
 
