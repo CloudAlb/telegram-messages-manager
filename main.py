@@ -1,8 +1,18 @@
+import os
+
+from getpass import getpass
+
 from urllib.parse import urlparse
 
 from dotenv import dotenv_values
 
 from telethon import TelegramClient, events
+
+if (not os.path.isfile(".env")):
+    # raise Exception("No .env file configuration. Please read \"README.md\" file")
+    api_id_user=getpass("Please enter your API ID: ")
+    api_hash_user=getpass("Please enter your API Hash: ")
+    bot_token_user=getpass("Please enter your Bot Token: ")
 
 config = dotenv_values(".env")
 

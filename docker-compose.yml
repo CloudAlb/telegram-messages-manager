@@ -1,0 +1,10 @@
+services:
+  telegram-messages-manager:
+    container_name: telegram-messages-manager
+    build: .
+    image: zak-clouds-manager-app:latest
+    restart: unless-stopped
+    environment:
+      - environment=development
+    volumes:
+      - .:/home/builder/myapp
